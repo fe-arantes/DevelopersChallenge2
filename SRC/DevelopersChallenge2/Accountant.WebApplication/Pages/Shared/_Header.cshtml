@@ -1,0 +1,38 @@
+﻿<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+
+                    <a class="nav-link  sidenav-item-main" id="bankStatement" href="Index" data-toggle="collapse"
+                       data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Bank Statement
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="sidenav-item-sub" id="bankStatementImport" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav" id="nav-ofx">
+                            <a class="nav-link sub-nav-1 sub-active pointer">
+                                Import
+                            </a>
+                        </nav>
+                    </div>
+
+                    <span id="menu-user-wwrapper">
+                        <div class="sb-sidenav-menu-heading">Reports</div>
+                        <div id="sideMenuUser"></div>
+                    </span>
+
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <nav class="sb-topnav navbar navbar-expand navbar-dark ">
+        <a class="navbar-brand" href="https://www.nibo.com.br/"><img src="~/images/logo-nibo-branco.png" alt="" srcset=""></a>
+        <button class=" toggle-menu btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+
