@@ -2,6 +2,7 @@
 using Accountant.WebApplication.Commons;
 using Accountant.WebApplication.Enums;
 using Accountant.WebApplication.Model;
+using Accountant.WebApplication.Model.Chart;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -96,6 +97,43 @@ namespace Accountant.WebApplication.Pages
             }
         }
 
+        public JsonResult OnPostTimeChart()
+        {
+            try
+            {
+                var timeChart = new TimeChart2d
+                {
+                    ChartTitle = "Balance X Date",
+                    Labels = new List<object>(),
+                    Values = new List<object>()
+                };
+
+                var ofx = ofxManager.GetOfxFile();
+                if (ofx == null || ofx.Transactions.Count < 1)
+                {
+                    return new JsonResult(timeChart);
+                }
+
+                var dates = ofx.Transactions.Select(x => x.Date.ToString("dd/MM/yyyy")).Distinct().OrderBy(x => x).ToList();
+                timeChart.Labels.AddRange(dates);
+
+                decimal bankBalance = 0;
+                foreach (var date in dates)
+                {
+                    var dayValue = ofx.Transactions.Where(i => i.Date.ToString("dd/MM/yyyy") == date).Sum(i => i.TransactionValue);
+                    bankBalance += dayValue;
+                    //timeChart.Values.Add(bankBalance.ToString("#0.00"));
+                    timeChart.Values.Add(bankBalance);
+                }
+
+                return new JsonResult(timeChart);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public JsonResult OnPostLoadTable()
         {
             try
@@ -108,15 +146,19 @@ namespace Accountant.WebApplication.Pages
                     return new JsonResult(ofxTable);
                 }
 
-                ofxTable.Header = new List<string> { "Date", "TransactionType", "TransactionValue", "Description" };
+                ofxTable.Header = new List<string> { "Date", "Transaction Type", "Value", "Balance", "Description" };
 
+                decimal balance = 0;
                 foreach (var transaction in ofx.Transactions.OrderBy(x => x.Date))
                 {
+                    balance += transaction.TransactionValue;
+
                     var line = new List<object>
                     {
                         transaction.Date.ToString("dd/MM/yyyy HH:mm:ss") ,
                         transaction.Type.ToString(),
                         transaction.TransactionValue.ToString("#0.00"),
+                        balance.ToString("#0.00"),
                         transaction.Description,
                     };
 

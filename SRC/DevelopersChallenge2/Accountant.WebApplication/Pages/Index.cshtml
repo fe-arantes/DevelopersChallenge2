@@ -126,6 +126,17 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card mb-3 mb-xl-0">
+                    <div class="card-body card-loader">
+                        <img class="loader" id="loader-line-chart" src="~/images/loader.gif" />
+                        <canvas id="myChartInTime" width="100%" height="15" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="panel-body mt-0">
             <div class="card my-1">
                 <div class="card-body position-relative card-loader ">
@@ -147,6 +158,7 @@
 @section Scripts
 {
     <script src="~/js/Ofx/OfxJs.js"></script>
+    <script src="~/js/Chart/Chart.min.js"></script>
 
     <script>
         $("#loader-file").hide();
